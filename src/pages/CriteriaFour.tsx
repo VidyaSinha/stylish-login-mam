@@ -1,24 +1,14 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card } from "@/components/ui/card";
-import { ArrowLeft, ExternalLink, Eye, Edit, User } from "lucide-react";
+import { ArrowLeft, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
+import { BasicDetailsForm } from "@/components/student/BasicDetailsForm";
+import { CriteriaCard } from "@/components/criteria/CriteriaCard";
 
 const CriteriaFour = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    grNo: "",
-    enrollNo: "",
-    academicYear: ""
-  });
 
   const subCriteria = [
     {
@@ -86,24 +76,6 @@ const CriteriaFour = () => {
     }
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.grNo || !formData.enrollNo || !formData.academicYear) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    toast({
-      title: "Success",
-      description: "Basic details submitted successfully",
-    });
-    setShowForm(false);
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-[#02959F] py-6 mb-8 relative">
@@ -130,155 +102,11 @@ const CriteriaFour = () => {
         </div>
 
         {showForm ? (
-          <Card className="p-6 bg-white mb-6">
-            <h2 className="text-2xl font-semibold text-[#02959F] mb-6">Basic Details</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-gray-700">Name</Label>
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full"
-                  placeholder="Enter full name"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="grNo" className="text-gray-700">GR Number</Label>
-                <Input
-                  id="grNo"
-                  value={formData.grNo}
-                  onChange={(e) => setFormData({...formData, grNo: e.target.value})}
-                  className="w-full"
-                  placeholder="Enter GR number"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="enrollNo" className="text-gray-700">Enrollment Number</Label>
-                <Input
-                  id="enrollNo"
-                  value={formData.enrollNo}
-                  onChange={(e) => setFormData({...formData, enrollNo: e.target.value})}
-                  className="w-full"
-                  placeholder="Enter enrollment number"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="academicYear" className="text-gray-700">Academic Year</Label>
-                <Select
-                  value={formData.academicYear}
-                  onValueChange={(value) => setFormData({...formData, academicYear: value})}
-                >
-                  <SelectTrigger id="academicYear" className="w-full">
-                    <SelectValue placeholder="Select academic year" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="2024-25">2024-25</SelectItem>
-                    <SelectItem value="2023-24">2023-24</SelectItem>
-                    <SelectItem value="2022-23">2022-23</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex gap-4 pt-4">
-                <Button
-                  type="submit"
-                  className="flex-1 bg-[#02959F] text-white hover:bg-[#037885]"
-                >
-                  Submit
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setShowForm(false)}
-                  className="flex-1"
-                >
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </Card>
+          <BasicDetailsForm onClose={() => setShowForm(false)} />
         ) : (
           <div className="space-y-6">
             {subCriteria.map((criterion) => (
-              <Card key={criterion.number} className="p-6 bg-white hover:shadow-lg transition-all duration-300">
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <h2 className="text-xl font-semibold text-[#02959F]">
-                          {criterion.number} - {criterion.title}
-                        </h2>
-                        <div className="flex gap-2 ml-4">
-                          {criterion.details && !criterion.subCriteria && (
-                            <Button 
-                              variant="outline" 
-                              size="sm"
-                              className="flex items-center gap-2 text-[#02959F] hover:text-white hover:bg-[#02959F]"
-                              onClick={() => navigate(`/${criterion.details}`)}
-                            >
-                              <Eye className="h-4 w-4" />
-                              See Details
-                            </Button>
-                          )}
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            className="flex items-center gap-2 text-[#02959F] hover:text-white hover:bg-[#02959F]"
-                          >
-                            <Edit className="h-4 w-4" />
-                            Edit Marks
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-lg font-semibold text-[#02959F] whitespace-nowrap">
-                      {criterion.marks} marks
-                    </div>
-                  </div>
-
-                  {criterion.subCriteria && (
-                    <div className="ml-8 space-y-3">
-                      {criterion.subCriteria.map((sub) => (
-                        <div key={sub.number} className="flex items-start justify-between gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                          <div className="flex-1">
-                            <h3 className="text-lg font-medium text-[#02959F]">
-                              {sub.number} - {sub.title}
-                            </h3>
-                            <div className="flex gap-2 mt-2">
-                              {sub.details && (
-                                <Button 
-                                  variant="outline" 
-                                  size="sm"
-                                  className="flex items-center gap-2 text-[#02959F] hover:text-white hover:bg-[#02959F]"
-                                  onClick={() => navigate(`/${sub.details}`)}
-                                >
-                                  <Eye className="h-4 w-4" />
-                                  See Details
-                                </Button>
-                              )}
-                              <Button 
-                                variant="outline" 
-                                size="sm"
-                                className="flex items-center gap-2 text-[#02959F] hover:text-white hover:bg-[#02959F]"
-                              >
-                                <Edit className="h-4 w-4" />
-                                Edit Marks
-                              </Button>
-                            </div>
-                          </div>
-                          <div className="text-lg font-semibold text-[#02959F] whitespace-nowrap">
-                            {sub.marks} marks
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </Card>
+              <CriteriaCard key={criterion.number} criterion={criterion} />
             ))}
           </div>
         )}
