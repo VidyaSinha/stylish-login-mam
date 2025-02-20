@@ -102,7 +102,7 @@ const SuccessRate = () => {
       <div className="container mx-auto px-[20%] pb-8">
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <h2 className="text-2xl font-semibold text-[#02959F] mb-6">
-            Students Graduated without backlogs
+            Success Rate Details
           </h2>
           
           <Table>

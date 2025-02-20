@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, User } from "lucide-react";
@@ -21,6 +20,7 @@ const CriteriaFour = () => {
       number: "4.2",
       title: "Success Rate in Stipulated Period of the Program",
       marks: 20,
+      details: "success-rate",
       subCriteria: [
         {
           number: "4.2.1",
