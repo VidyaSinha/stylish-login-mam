@@ -23,6 +23,7 @@ import AcademicPerformance from "./pages/AcademicPerformance";
 import AcademicPerformanceUpload from "./pages/AcademicPerformanceUpload";
 import PlacementDetails from "./pages/PlacementDetails";
 import PlacementDetailsUpload from "./pages/PlacementDetailsUpload";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
