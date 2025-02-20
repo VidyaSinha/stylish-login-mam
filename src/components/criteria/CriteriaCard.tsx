@@ -36,7 +36,7 @@ export const CriteriaCard = ({ criterion }: CriteriaCardProps) => {
                 {criterion.number} - {criterion.title}
               </h2>
               <div className="flex gap-2 ml-4">
-                {criterion.details && !criterion.subCriteria && (
+                {criterion.details && (
                   <Button 
                     variant="outline" 
                     size="sm"
