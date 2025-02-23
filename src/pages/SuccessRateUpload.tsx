@@ -78,6 +78,15 @@ const SuccessRateUpload = () => {
     navigate("/success-rate");
   };
 
+  const handleSemesterSelection = (semester: string) => {
+    setSelectedSemesters(prev => {
+      if (prev.includes(semester)) {
+        return prev.filter(s => s !== semester);
+      }
+      return [...prev, semester];
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-[#02959F] py-6 mb-8 relative">
@@ -157,24 +166,23 @@ const SuccessRateUpload = () => {
               {hasBacklog === "yes" && (
                 <div className="space-y-2">
                   <Label>Select semesters with backlog</Label>
-                  <Select
-                    value={selectedSemesters.join(",")}
-                    onValueChange={(value) => {
-                      const semesterArray = value.split(",").filter(Boolean);
-                      setSelectedSemesters(semesterArray);
-                    }}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select semesters" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {semesters.map((semester) => (
-                        <SelectItem key={semester.value} value={semester.value}>
-                          {semester.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="grid grid-cols-4 gap-2">
+                    {semesters.map((semester) => (
+                      <Button
+                        key={semester.value}
+                        type="button"
+                        variant={selectedSemesters.includes(semester.value) ? "default" : "outline"}
+                        className={`${
+                          selectedSemesters.includes(semester.value)
+                            ? "bg-[#02959F] text-white"
+                            : "text-[#02959F]"
+                        }`}
+                        onClick={() => handleSemesterSelection(semester.value)}
+                      >
+                        {semester.label}
+                      </Button>
+                    ))}
+                  </div>
                   <div className="text-sm text-gray-500 mt-1">
                     Selected semesters: {selectedSemesters.map(s => `Semester ${s}`).join(", ") || "None"}
                   </div>
