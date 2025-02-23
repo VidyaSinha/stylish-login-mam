@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Search, Plus } from "lucide-react";
@@ -147,13 +146,6 @@ const SuccessRate = () => {
               Student Details
             </h2>
             <div className="flex items-center gap-4">
-              <Button
-                onClick={() => navigate("/success-rate-upload")}
-                className="bg-[#02959F] text-white hover:bg-[#037885] flex items-center gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                Add Details
-              </Button>
               <Select onValueChange={setFilterType}>
                 <SelectTrigger className="w-[200px]">
                   <SelectValue placeholder="Select filter type" />
@@ -165,6 +157,14 @@ const SuccessRate = () => {
                   <SelectItem value="gr">GR No. Wise</SelectItem>
                 </SelectContent>
               </Select>
+
+              <Button
+                onClick={() => navigate("/success-rate-upload")}
+                className="bg-[#02959F] text-white hover:bg-[#037885] flex items-center gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                Add Details
+              </Button>
 
               {filterType === "academic" && (
                 <Select onValueChange={setAcademicYear}>

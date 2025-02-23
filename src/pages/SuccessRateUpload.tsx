@@ -15,7 +15,8 @@ const SuccessRateUpload = () => {
   const { toast } = useToast();
   const [selectedEnrollment, setSelectedEnrollment] = useState("");
   const [gradeHistory, setGradeHistory] = useState<File | null>(null);
-  const [appearedForExam, setAppearedForExam] = useState<"yes" | "no" | "">("");
+  const [hasBacklog, setHasBacklog] = useState<"yes" | "no" | "">("");
+  const [selectedSemesters, setSelectedSemesters] = useState<string[]>([]);
 
   // Dummy enrollment numbers (will be fetched from backend later)
   const enrollmentNumbers = [
@@ -25,6 +26,11 @@ const SuccessRateUpload = () => {
     "21012011004",
     "21012011005",
   ];
+
+  const semesters = Array.from({ length: 8 }, (_, i) => ({
+    value: String(i + 1),
+    label: `Semester ${i + 1}`
+  }));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,10 +53,19 @@ const SuccessRateUpload = () => {
       return;
     }
 
-    if (!appearedForExam) {
+    if (!hasBacklog) {
       toast({
         title: "Error",
-        description: "Please select whether student appeared for exam",
+        description: "Please select whether student has backlog",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (hasBacklog === "yes" && selectedSemesters.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please select semesters with backlog",
         variant: "destructive",
       });
       return;
@@ -117,10 +132,15 @@ const SuccessRateUpload = () => {
               </div>
 
               <div className="space-y-2">
-                <Label>Has student appeared for exam?</Label>
+                <Label>Has backlog?</Label>
                 <RadioGroup
-                  value={appearedForExam}
-                  onValueChange={(value) => setAppearedForExam(value as "yes" | "no")}
+                  value={hasBacklog}
+                  onValueChange={(value) => {
+                    setHasBacklog(value as "yes" | "no");
+                    if (value === "no") {
+                      setSelectedSemesters([]);
+                    }
+                  }}
                   className="flex gap-4"
                 >
                   <div className="flex items-center space-x-2">
@@ -133,6 +153,33 @@ const SuccessRateUpload = () => {
                   </div>
                 </RadioGroup>
               </div>
+
+              {hasBacklog === "yes" && (
+                <div className="space-y-2">
+                  <Label>Select semesters with backlog</Label>
+                  <Select
+                    value={selectedSemesters.join(",")}
+                    onValueChange={(value) => {
+                      const semesterArray = value.split(",").filter(Boolean);
+                      setSelectedSemesters(semesterArray);
+                    }}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select semesters" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {semesters.map((semester) => (
+                        <SelectItem key={semester.value} value={semester.value}>
+                          {semester.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <div className="text-sm text-gray-500 mt-1">
+                    Selected semesters: {selectedSemesters.map(s => `Semester ${s}`).join(", ") || "None"}
+                  </div>
+                </div>
+              )}
 
               <div className="pt-4">
                 <Button
