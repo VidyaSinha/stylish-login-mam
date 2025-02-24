@@ -23,6 +23,7 @@ import AcademicPerformance from "./pages/AcademicPerformance";
 import AcademicPerformanceUpload from "./pages/AcademicPerformanceUpload";
 import PlacementDetails from "./pages/PlacementDetails";
 import PlacementDetailsUpload from "./pages/PlacementDetailsUpload";
+import ProfessionalActivities from "./pages/ProfessionalActivities";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -70,6 +71,7 @@ const App = () => {
                 <Route path="/academic-performance-upload" element={<AcademicPerformanceUpload />} />
                 <Route path="/placement-details" element={<PlacementDetails />} />
                 <Route path="/placement-details-upload" element={<PlacementDetailsUpload />} />
+                <Route path="/professional-activities" element={<ProfessionalActivities />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

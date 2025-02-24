@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Eye, Edit } from "lucide-react";
+import { Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface SubCriterion {
@@ -26,6 +26,16 @@ interface CriteriaCardProps {
 export const CriteriaCard = ({ criterion }: CriteriaCardProps) => {
   const navigate = useNavigate();
 
+  const handleSeeDetails = (details?: string) => {
+    if (details) {
+      if (criterion.number === "4.5") {
+        navigate("/professional-activities");
+      } else {
+        navigate(`/${details}`);
+      }
+    }
+  };
+
   return (
     <Card className="p-6 bg-white hover:shadow-lg transition-all duration-300">
       <div className="space-y-4">
@@ -41,20 +51,12 @@ export const CriteriaCard = ({ criterion }: CriteriaCardProps) => {
                     variant="outline" 
                     size="sm"
                     className="flex items-center gap-2 text-[#02959F] hover:text-white hover:bg-[#02959F]"
-                    onClick={() => navigate(`/${criterion.details}`)}
+                    onClick={() => handleSeeDetails(criterion.details)}
                   >
                     <Eye className="h-4 w-4" />
                     See Details
                   </Button>
                 )}
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="flex items-center gap-2 text-[#02959F] hover:text-white hover:bg-[#02959F]"
-                >
-                  <Edit className="h-4 w-4" />
-                  Edit Marks
-                </Button>
               </div>
             </div>
           </div>
@@ -77,20 +79,12 @@ export const CriteriaCard = ({ criterion }: CriteriaCardProps) => {
                         variant="outline" 
                         size="sm"
                         className="flex items-center gap-2 text-[#02959F] hover:text-white hover:bg-[#02959F]"
-                        onClick={() => navigate(`/${sub.details}`)}
+                        onClick={() => handleSeeDetails(sub.details)}
                       >
                         <Eye className="h-4 w-4" />
                         See Details
                       </Button>
                     )}
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      className="flex items-center gap-2 text-[#02959F] hover:text-white hover:bg-[#02959F]"
-                    >
-                      <Edit className="h-4 w-4" />
-                      Edit Marks
-                    </Button>
                   </div>
                 </div>
                 <div className="text-lg font-semibold text-[#02959F] whitespace-nowrap">
